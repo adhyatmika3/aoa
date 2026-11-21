@@ -1,0 +1,134 @@
+class BPlusTree {
+
+    class Node {
+        int key[] = new int[4];
+        Node child[] = new Node[5];
+        int n = 0;
+        boolean leaf = true;
+        Node next;
+    }
+
+    class Split {
+        int key;
+        Node right;
+
+        Split(int k, Node r) {
+            key = k;
+            right = r;
+        }
+    }
+
+    Node root = new Node();
+
+    Split insert(Node x, int k) {
+        int i = 0;
+
+        if (x.leaf) {
+            while (i < x.n && k > x.key[i])
+                i++;
+
+            for (int j = x.n; j > i; j--)
+                x.key[j] = x.key[j - 1];
+
+            x.key[i] = k;
+            x.n++;
+
+            if (x.n <= 3)
+                return null;
+
+            Node right = new Node();
+            right.n = 2;
+
+            right.key[0] = x.key[2];
+            right.key[1] = x.key[3];
+
+            x.n = 2;
+
+            right.next = x.next;
+            x.next = right;
+
+            return new Split(right.key[0], right);
+        }
+
+        while (i < x.n && k >= x.key[i])
+            i++;
+
+        Split s = insert(x.child[i], k);
+
+        if (s == null)
+            return null;
+
+        for (int j = x.n; j > i; j--)
+            x.key[j] = x.key[j - 1];
+
+        for (int j = x.n + 1; j > i + 1; j--)
+            x.child[j] = x.child[j - 1];
+
+        x.key[i] = s.key;
+        x.child[i + 1] = s.right;
+        x.n++;
+
+        if (x.n <= 3)
+            return null;
+
+        Node right = new Node();
+        right.leaf = false;
+        right.n = 1;
+        right.key[0] = x.key[3];
+
+        right.child[0] = x.child[3];
+        right.child[1] = x.child[4];
+
+        int middle = x.key[2];
+        x.n = 2;
+
+        return new Split(middle, right);
+    }
+
+    void insert(int k) {
+        Split s = insert(root, k);
+
+        if (s != null) {
+            Node newRoot = new Node();
+            newRoot.leaf = false;
+            newRoot.n = 1;
+
+            newRoot.key[0] = s.key;
+            newRoot.child[0] = root;
+            newRoot.child[1] = s.right;
+
+            root = newRoot;
+        }
+    }
+
+    void display() {
+        Node temp = root;
+
+        while (!temp.leaf)
+            temp = temp.child[0];
+
+        System.out.println("B+ Tree:");
+
+        while (temp != null) {
+            for (int i = 0; i < temp.n; i++)
+                System.out.print(temp.key[i] + " ");
+
+            temp = temp.next;
+        }
+    }
+
+    public static void main(String[] args) {
+        BPlusTree tree = new BPlusTree();
+
+        tree.insert(10);
+        tree.insert(20);
+        tree.insert(5);
+        tree.insert(6);
+        tree.insert(12);
+        tree.insert(30);
+
+        tree.display();
+
+        System.out.println("\nTime Complexity: O(log n)");
+    }
+}
