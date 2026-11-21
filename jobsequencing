@@ -1,0 +1,72 @@
+class JobSequencing {
+    public static void main(String[] args) {
+
+        char job[] = {'A', 'B', 'C', 'D'};
+        int deadline[] = {2, 1, 2, 1};
+        int profit[] = {100, 50, 20, 30};
+
+        int n = job.length;
+
+        // Sort jobs by profit
+        for (int i = 0; i < n; i++) {
+
+            for (int j = i + 1; j < n; j++) {
+
+                if (profit[i] < profit[j]) {
+
+                    int temp = profit[i];
+                    profit[i] = profit[j];
+                    profit[j] = temp;
+
+                    temp = deadline[i];
+                    deadline[i] = deadline[j];
+                    deadline[j] = temp;
+
+                    char t = job[i];
+                    job[i] = job[j];
+                    job[j] = t;
+                }
+            }
+        }
+
+        int max = 0;
+
+        for (int i = 0; i < n; i++) {
+            if (deadline[i] > max)
+                max = deadline[i];
+        }
+
+        char result[] = new char[max + 1];
+
+        for (int i = 0; i < n; i++) {
+
+            for (int j = deadline[i]; j > 0; j--) {
+
+                if (result[j] == '\0') {
+                    result[j] = job[i];
+                    break;
+                }
+            }
+        }
+
+        int totalProfit = 0;
+
+        System.out.println("Selected Jobs:");
+
+        for (int i = 1; i <= max; i++) {
+
+            if (result[i] != '\0') {
+
+                System.out.print(result[i] + " ");
+
+                for (int j = 0; j < n; j++) {
+                    if (job[j] == result[i])
+                        totalProfit += profit[j];
+                }
+            }
+        }
+
+        System.out.println("\nMaximum Profit: " + totalProfit);
+        System.out.println("Time Complexity: O(n^2)");
+    }
+}
