@@ -1,0 +1,25 @@
+class MasterMethod {
+    public static void main(String[] args) {
+
+        int a = 2;
+        int b = 2;
+        int k = 1;
+
+        double value = Math.log(a) / Math.log(b);
+
+        System.out.println("a = " + a);
+        System.out.println("b = " + b);
+        System.out.println("k = " + k);
+        System.out.println("log b a = " + value);
+
+        if (value == k) {
+            System.out.println("Time Complexity: O(n log n)");
+        }
+        else if (value > k) {
+            System.out.println("Time Complexity: O(n^log_b(a))");
+        }
+        else {
+            System.out.println("Time Complexity: O(n^k)");
+        }
+    }
+}
