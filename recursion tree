@@ -1,0 +1,21 @@
+class RecursionTree {
+    public static void main(String[] args) {
+
+        int n = 8;
+        int level = 0;
+        int totalCost = 0;
+
+        while (n >= 1) {
+            int cost = n * (int)(Math.pow(2, level));
+
+            System.out.println("Level " + level + " Cost: " + cost);
+
+            totalCost += cost;
+            n = n / 2;
+            level++;
+        }
+
+        System.out.println("Total Cost: " + totalCost);
+        System.out.println("Time Complexity: O(n log n)");
+    }
+}
