@@ -1,4 +1,5 @@
-class QuickSort {
+
+public class Main {
 
     static int partition(int a[], int low, int high) {
 
