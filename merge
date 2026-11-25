@@ -1,4 +1,5 @@
-class MergeSort {
+
+public class Main {
 
     static void merge(int a[], int low, int mid, int high) {
 
@@ -8,6 +9,7 @@ class MergeSort {
         int j = mid + 1;
         int k = 0;
 
+        // Merge two sorted parts
         while (i <= mid && j <= high) {
 
             if (a[i] < a[j])
