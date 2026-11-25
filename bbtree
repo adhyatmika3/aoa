@@ -1,3 +1,4 @@
+
 class BPlusTree {
 
     class Node {
@@ -24,6 +25,7 @@ class BPlusTree {
         int i = 0;
 
         if (x.leaf) {
+
             while (i < x.n && k > x.key[i])
                 i++;
 
@@ -74,8 +76,8 @@ class BPlusTree {
         Node right = new Node();
         right.leaf = false;
         right.n = 1;
-        right.key[0] = x.key[3];
 
+        right.key[0] = x.key[3];
         right.child[0] = x.child[3];
         right.child[1] = x.child[4];
 
@@ -116,8 +118,12 @@ class BPlusTree {
             temp = temp.next;
         }
     }
+}
+
+public class Main {
 
     public static void main(String[] args) {
+
         BPlusTree tree = new BPlusTree();
 
         tree.insert(10);
